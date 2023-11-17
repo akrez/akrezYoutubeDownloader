@@ -58,7 +58,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a class="btn btn-success" target="_blank"
+                                            <a class="btn btn-success"
                                                 href="{{ route('downloads.stream', [
                                                     'url' => base64_encode($format['url']),
                                                     'download' => $download,
