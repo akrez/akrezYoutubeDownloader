@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\DownloadController;
+use App\Http\Controllers\HomeController;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware('auth')->group(function () {
+    Route::resource('downloads', DownloadController::class);
+    Route::get('downloads/{download}/info', [DownloadController::class, 'info'])->name('downloads.info');
 });
+
+Auth::routes();
+
+Route::get(RouteServiceProvider::HOME, [HomeController::class, 'index'])->name('home');
