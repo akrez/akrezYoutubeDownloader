@@ -10,7 +10,6 @@
     <link rel="shortcut icon" href="{{ asset('favicon.svg') }}">
     <title>@yield('title', config('app.name'))</title>
 
-    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/sahel/css/sahel.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.rtl.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
