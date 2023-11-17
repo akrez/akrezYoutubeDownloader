@@ -18,7 +18,7 @@
                 <tr>
                     <td>
                         {{ $download->key }}
-                        <img src="{{ route('downloads.thumbnail', ['download' => $download, 'quality' => 'default']) }}">
+                        <img src="{{ route('downloads.thumbnail', ['download' => $download, 'quality' => 'sddefault']) }}">
                         {{ $download->getResponseInfo('title') }}
                     </td>
                     <td>{{ $download->getResponseInfo('shortDescription') }} {{ $download->getResponseInfo('description') }}

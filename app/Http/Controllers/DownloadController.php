@@ -6,6 +6,7 @@ use App\Models\Download;
 use App\Http\Requests\StoreDownloadRequest;
 use App\Http\Requests\ThumbnailDownloadRequest;
 use App\Http\Requests\UpdateDownloadRequest;
+use Illuminate\Support\Facades\Http;
 use ReflectionFunction;
 use YouTube\YouTubeDownloader;
 
@@ -90,7 +91,10 @@ class DownloadController extends Controller
     public function thumbnail(Download $download, ThumbnailDownloadRequest $request)
     {
         if ($download->response) {
-            return response()->file('https://img.youtube.com/vi/' . $download->key . '/' . $request->quality . '.jpg');
+            $response = Http::get('https://img.youtube.com/vi/' . $download->key . '/' . $request->quality . '.jpg');
+            return response($response->body(), $response->status(), [
+                'content-type' => $response->header('content-type')
+            ]);
         }
         return response()->file(public_path('assets\images\no-image.svg'));
     }
