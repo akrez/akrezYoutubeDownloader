@@ -1,0 +1,6 @@
+html,
+body {
+    font-family: "sahel" !important;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+}
