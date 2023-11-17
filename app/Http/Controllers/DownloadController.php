@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Download;
 use App\Http\Requests\StoreDownloadRequest;
+use App\Http\Requests\StreamDownloadRequest;
 use App\Http\Requests\ThumbnailDownloadRequest;
 use App\Http\Requests\UpdateDownloadRequest;
+use GuzzleHttp\Psr7\Stream;
 use Illuminate\Support\Facades\Http;
 use ReflectionFunction;
 use YouTube\YouTubeDownloader;
+use YouTube\YouTubeStreamer;
 
 class DownloadController extends Controller
 {
@@ -97,5 +100,14 @@ class DownloadController extends Controller
             ]);
         }
         return response()->file(public_path('assets\images\no-image.svg'));
+    }
+
+    public function stream(Download $download, StreamDownloadRequest $request)
+    {
+        return response()->streamDownload(function () use ($request) {
+            $url = base64_decode($request->url);
+            $youtube = new YouTubeStreamer();
+            $youtube->stream($url);
+        },$download->getResponseInfo('title'));
     }
 }
