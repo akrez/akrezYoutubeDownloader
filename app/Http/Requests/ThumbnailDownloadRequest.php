@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreDownloadRequest extends FormRequest
+class ThumbnailDownloadRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +23,13 @@ class StoreDownloadRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'key' => ['required', 'string', 'regex:/^[a-zA-Z0-9_-]{10,11}$/'],
+            'quality' => [Rule::in([
+                'default',
+                'mqdefault',
+                'hqdefault',
+                'sddefault',
+                'maxresdefault',
+            ])],
         ];
     }
 }

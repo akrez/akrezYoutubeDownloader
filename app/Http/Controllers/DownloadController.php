@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Download;
 use App\Http\Requests\StoreDownloadRequest;
+use App\Http\Requests\ThumbnailDownloadRequest;
 use App\Http\Requests\UpdateDownloadRequest;
 use ReflectionFunction;
 use YouTube\YouTubeDownloader;
@@ -25,9 +26,7 @@ class DownloadController extends Controller
      */
     public function create()
     {
-        return view('download.create', [
-            'downloads' => Download::query()->where('user_id', auth()->id())->latest()->paginate(),
-        ]);
+        //
     }
 
     /**
@@ -79,7 +78,20 @@ class DownloadController extends Controller
         }
 
         $youtube = new YouTubeDownloader();
-        $download->response = serialize($youtube->getDownloadLinks($download->key));
-        $download->save();
+        try {
+            $download->response = serialize($youtube->getDownloadLinks($download->key));
+            $download->save();
+        } catch (\Throwable $th) {
+        }
+
+        return response()->redirectToRoute('downloads.index');
+    }
+
+    public function thumbnail(Download $download, ThumbnailDownloadRequest $request)
+    {
+        if ($download->response) {
+            return response()->file('https://img.youtube.com/vi/' . $download->key . '/' . $request->quality . '.jpg');
+        }
+        return response()->file(public_path('assets\images\no-image.svg'));
     }
 }

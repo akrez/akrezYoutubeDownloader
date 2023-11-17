@@ -55,7 +55,7 @@
                         @endif
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="i">{{ __('Blogs') }}</a>
+                            <a class="nav-link" href="{{ route('downloads.index') }}">{{ __('Downloads') }}</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"

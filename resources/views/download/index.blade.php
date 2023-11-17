@@ -8,20 +8,24 @@
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th>Key</th>
-                <th>Created At</th>
-                <th>Deleted At</th>
+                <th>Video</th>
+                <th>Description</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             @forelse($downloads as $download)
                 <tr>
-                    <td>{{ $download->key }}</td>
-                    <td>{{ $download->created_at }}</td>
-                    <td>{{ $download->deleted_at }}</td>
                     <td>
-                        <a class="btn btn-primary w-100" href="{{ route('downloads.info', ['download' => $download]) }}">Info</a>
+                        {{ $download->key }}
+                        <img src="{{ route('downloads.thumbnail', ['download' => $download, 'quality' => 'default']) }}">
+                        {{ $download->getResponseInfo('title') }}
+                    </td>
+                    <td>{{ $download->getResponseInfo('shortDescription') }} {{ $download->getResponseInfo('description') }}
+                    </td>
+                    <td>
+                        <a class="btn btn-primary btn-sm w-100"
+                            href="{{ route('downloads.info', ['download' => $download]) }}">Info</a>
                     </td>
                 </tr>
             @empty

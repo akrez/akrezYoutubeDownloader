@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function () {
     Route::resource('downloads', DownloadController::class);
     Route::get('downloads/{download}/info', [DownloadController::class, 'info'])->name('downloads.info');
+    Route::get('downloads/{download}/thumbnail/{quality}', [DownloadController::class, 'thumbnail'])->name('downloads.thumbnail');
 });
 
 Auth::routes();
