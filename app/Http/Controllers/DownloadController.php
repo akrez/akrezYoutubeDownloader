@@ -7,7 +7,10 @@ use App\Http\Requests\StoreDownloadRequest;
 use App\Http\Requests\StreamDownloadRequest;
 use App\Http\Requests\ThumbnailDownloadRequest;
 use App\Http\Requests\UpdateDownloadRequest;
-use GuzzleHttp\Psr7\Stream;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Message;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Facades\Http;
 use ReflectionFunction;
 use YouTube\YouTubeDownloader;
@@ -104,10 +107,25 @@ class DownloadController extends Controller
 
     public function stream(Download $download, StreamDownloadRequest $request)
     {
-        return response()->streamDownload(function () use ($request) {
-            $url = base64_decode($request->url);
-            $youtube = new YouTubeStreamer();
-            $youtube->stream($url);
-        },$download->getResponseInfo('title'));
+        $url = base64_decode($request->url);
+
+        $request = new Request('GET', $url);
+
+        $client = new Client([RequestOptions::STREAM => true]);
+        $response = $client->send($request);
+
+        $headers = [];
+        foreach ($response->getHeaders() as $headerKey => $headerValues) {
+            $headers[$headerKey] = implode(';', $headerValues);
+        }
+
+        $body = $response->getBody();
+
+        return response()->streamDownload(function () use ($body) {
+            while (!$body->eof()) {
+                echo $body->read(2048);
+                flush();
+            }
+        }, urlencode($download->getResponseInfo('title') . '.mp4'), $headers);
     }
 }
