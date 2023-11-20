@@ -14,14 +14,6 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.rtl.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
 
-    <style>
-        .max-width-32-px {
-            max-width: 32px;
-            max-height: 32px;
-        }
-    </style>
-    <link rel="stylesheet" href="{{ asset('dist/css/app.css') }}">
-
     @yield('POS_HEAD')
 </head>
 
